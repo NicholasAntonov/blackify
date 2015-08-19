@@ -9,7 +9,7 @@
 
 (defn black-or-white
   [color]
-  (.getRGB (if (> (.getGreen (new Color color)) (* 0.7 255))
+  (.getRGB (if (< (.getGreen (new Color color)) (* 0.5 255))
     Color/BLACK
     Color/WHITE)))
 
