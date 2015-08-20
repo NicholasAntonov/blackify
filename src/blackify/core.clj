@@ -13,6 +13,15 @@
     Color/BLACK
     Color/WHITE)))
 
+(def cli-options
+  ;; An option with a required argument
+  [["-t" "--tolerance TOLERANCE" "Tolerance"
+    :default 0.5
+    :parse-fn #(Integer/parseDouble %)
+    :validate [#(< 0 % 1) "Must be a number between 0 and 1"]]
+   ;; A boolean option defaulting to nil
+   ["-i" "--inverted"]])
+
 (defn blackify
   []
   (let [count (-> "count.png" clojure.java.io/file load-image)]
