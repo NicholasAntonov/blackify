@@ -24,12 +24,16 @@
    ["-i" "--inverted"]])
 
 (defn blackify
-  [options]
+  [cli]
   (let [count (-> "count.png" clojure.java.io/file load-image)]
     (set-pixels count
       (into-array Integer/TYPE
         (map
-          #(.getRGB (if (< (.getGreen (new Color %)) (* 0.5 255))
+          #(.getRGB
+            (if
+              ((if (get (get cli :options) :inverted) > <)
+              (.getGreen (new Color %))
+              (* 0.5 255))
             Color/BLACK
             Color/WHITE))
           (get-pixels ((grayscale) count)))))
