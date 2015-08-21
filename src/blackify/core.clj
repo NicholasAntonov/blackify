@@ -24,16 +24,16 @@
    ["-i" "--inverted"]])
 
 (defn blackify
-  [cli]
+  [options]
   (let [count (-> "count.png" clojure.java.io/file load-image)]
     (set-pixels count
       (into-array Integer/TYPE
         (map
           #(.getRGB
             (if
-              ((if (get (get cli :options) :inverted) > <)
+              ((if (get options :inverted) > <)
               (.getGreen (new Color %))
-              (* 0.5 255))
+              (* (get options :tolerance) 255))
             Color/BLACK
             Color/WHITE))
           (get-pixels ((grayscale) count)))))
@@ -44,4 +44,4 @@
   [& args]
   (println "Hello, World!")
   (println (first args))
-  (blackify (parse-opts args cli-options)))
+  (blackify (get (parse-opts args cli-options) :options)))
